@@ -1,0 +1,41 @@
+body {
+    font-family: 'Comic Sans MS', sans-serif;
+}
+
+.title{
+    text-align: center;
+}
+
+.game-container{
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.guess {
+    width: 200px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.image {
+    width: 300px;
+    height: 400px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.button {
+    padding: 5px 10px;
+    margin-top: 10px;
+    background-color: dodgerblue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 10px;
+    font-weight: bold;
+}
