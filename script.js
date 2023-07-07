@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .catch(error => {
         console.log(error);
-        result.textContent = "Failed to fetch anime data. Please try again.";
+        result.textContent = "something wrong happened";
       });
   
     function updateAnimeImage() {
