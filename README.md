@@ -2,7 +2,7 @@
 
 todo:
 
-fix broken image urls
+~~fix broken image urls~~
 
 add categories
 
