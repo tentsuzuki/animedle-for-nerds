@@ -30,23 +30,44 @@ function checkGuess() {
     }
   }
 }
+fetchRandomAnime();
 
-fetch('https://api.jikan.moe/v4/random/anime?sfw')
-  .then((response) => response.json())
-  .then((data) => {
-    const anime = data.data;
-    animeTitle = anime.title;
-    animeImageUrl = anime.images.jpg.image_url;
-    animeSynonyms = anime.title_synonyms;
-    //    console.log("Fetched anime title:", animeTitle); testing purposes only
-    //    console.log("Fetched anime title synonyms:", animeSynonyms);
-    //    console.log("Fetched anime image URL:", animeImageUrl);
-    updateAnimeImage();
-  })
-  .catch((error) => {
-    console.log(error);
-    result.textContent = "Something went wrong.";
-  });
+function fetchRandomAnime() {
+  fetch('https://api.jikan.moe/v4/random/anime')
+    .then((response) => response.json())
+    .then((data) => {
+      const anime = data.data;
+      const animeRating = anime.rating;
+      const fetchedTitle = anime.title;
+      const fetchedSynonyms = anime.title_synonyms || [];
+      const fetchedSeason = anime.season;
+      const fetchedYear = anime.year;
+      const fetchedScore = anime.score;
+      const fetchedStudios = anime.studios.map((studio) => studio.name) || [];
+      const fetchedGenres = anime.genres.map((genre) => genre.name) || [];
+
+      const valuesToCheck = [animeRating, fetchedTitle, ...fetchedSynonyms, fetchedSeason, fetchedYear, fetchedScore, ...fetchedStudios, ...fetchedGenres];
+
+      if (valuesToCheck.some((value) => value === null || value === undefined)) {
+        console.log('Re-requesting anime');
+        setTimeout(fetchRandomAnime, 500);
+      } else {
+        animeTitle = fetchedTitle;
+        animeImageUrl = anime.images.jpg.image_url;
+        animeSynonyms = fetchedSynonyms;
+        animeSeason = fetchedSeason;
+        animeYear = fetchedYear;
+        animeScore = fetchedScore;
+        animeStudio = fetchedStudios;
+        animeGenre = fetchedGenres;
+        updateAnimeImage();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      result.textContent = "Something went wrong.";
+    });
+}
 
 function updateAnimeImage() {
   animeImage.src = animeImageUrl;
