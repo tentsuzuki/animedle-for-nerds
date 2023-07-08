@@ -3,6 +3,8 @@ a site for guessing animes
 ## todo
 ~~fix broken image urls~~
 
+DROPDOWN IS VERY SLOW. HOW FIX??
+
 add categories
 
 spruce up css
