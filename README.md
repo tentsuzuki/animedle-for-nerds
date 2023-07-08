@@ -3,9 +3,17 @@ a site for guessing animes
 ## todo
 ~~fix broken image urls~~
 
-DROPDOWN IS VERY SLOW. HOW FIX??
+~~DROPDOWN IS VERY SLOW. HOW FIX??~~
 
-add categories
+~~add categories~~
+
+fix dropdown special characters
+
+fix api title mismatch
+
+add colors
+
+blur image
 
 spruce up css
 ## credits

@@ -12,17 +12,51 @@
     </div>
     <main>
         <section class="game-container">
+            <div id="scoreboard"></div>
             <div class="image-container">
                 <img id="image">
             </div>
+            <table id="correcttable">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Rating</th>
+                    <th>Season</th>
+                    <th>Year</th>
+                    <th>Score</th>
+                    <th>Studios</th>
+                    <th>Genres</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            <table id="guesstable">
+                <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Type</th>
+                      <th>Rating</th>
+                      <th>Season</th>
+                      <th>Year</th>
+                      <th>Score</th>
+                      <th>Studios</th>
+                      <th>Genres</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                <tbody></tbody>
+            </table>
             <div class="user-input">
                 <input type="text" id="guess" placeholder="enter guess">
                 <button id="button">submit</button>
-                <div id="dropdown" class="dropdown"></div>
+                <button id="continue" disabled>continue</button>
                 <p id="result"></p>
             </div>
         </div>
     </main>
     <script src="script.js" defer></script>
+    <script src="autocomplete.js" defer></script>
 </body>
 </html>
