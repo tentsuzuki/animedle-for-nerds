@@ -79,22 +79,55 @@ input[type="text"] {
     background-color: #f5f5f5;
 }
 
+table,
+th,
+td {
+    border: 2px solid;
+}
+
 table {
-    width: 100%;
     border-collapse: collapse;
-    margin-bottom: 16px;
+    table-layout: fixed;
+    margin: auto;
 }
 
 th {
     text-align: center;
-    padding: 8px;
     background-color: #f5f5f5;
-    border-bottom: 1px solid #bdbdbd;
 }
 
 td {
-    padding: 8px;
-    border-bottom: 1px solid #bdbdbd;
+    width: 8em;
+    height: 8em;
+    aspect-ratio: 1/1;
+}
+
+#correcttable {
+    background-color: green;
+}
+
+#correcttable thead {
+    visibility: collapse;
+}
+
+tr.match td {
+    background-color: green;
+}
+
+tr.no-match td {
+    background-color: red;
+}
+
+.year-cell {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.score-cell {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 button {

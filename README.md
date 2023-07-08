@@ -11,11 +11,13 @@ fix dropdown special characters
 
 fix api title mismatch
 
-add colors
+~~add colors~~
 
 blur image
 
 spruce up css
+
+fix final table
 ## credits
 manami's offline anime database
 https://github.com/manami-project/anime-offline-database
