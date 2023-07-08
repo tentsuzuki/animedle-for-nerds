@@ -9,3 +9,6 @@ spruce up css
 ## credits
 manami's offline anime database
 https://github.com/manami-project/anime-offline-database
+
+jikan api
+https://github.com/jikan-me/jikan
