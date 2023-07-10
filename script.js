@@ -97,7 +97,7 @@ function fetchRandomAnime() {
           <td>${animeStudio.join(', ')}</td>
           <td>${animeGenre.join(', ')}</td>
           <td>${animeStatus}</td>
-        `.trim();
+        `;
 
         tableBody.appendChild(newRow);
       }
@@ -125,27 +125,6 @@ function handleContinue() {
   tableBodyGuess.innerHTML = "";
   fetchRandomAnime();
 }
-
-fetch('titles.xml')
-  .then((response) => response.text())
-  .then((xmlString) => {
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-    const items = xmlDoc.getElementsByTagName('item');
-
-    const allEntries = [];
-
-    for (let i = 0; i < items.length; i++) {
-      const name = items[i].getElementsByTagName('name')[0].textContent;
-      allEntries.push(name);
-    }
-
-    autocomplete(guessInput, allEntries);
-  })
-  .catch((error) => {
-    console.log(error);
-    result.textContent = 'autocomplete fucked up';
-  });
 
 function fetchAnimeVariables(guess) {
   const encodedGuess = encodeURIComponent(guess);
@@ -212,17 +191,17 @@ function fetchAnimeVariables(guess) {
 
       const yearCell = row.querySelector(".up-arrow, .down-arrow");
       if (yearCell) {
-        yearCell.style.backgroundImage = `url("downarrow.png")`;
+        yearCell.style.backgroundImage = `url("./images/downarrow.png")`;
         if (yearArrowClass === "down-arrow") {
-          yearCell.style.backgroundImage = `url("uparrow.png")`;
+          yearCell.style.backgroundImage = `url("./images/uparrow.png")`;
         }
       }
 
       const scoreCell = row.querySelector(".score-cell");
       if (scoreCell) {
-        scoreCell.style.backgroundImage = `url("downarrow.png")`;
+        scoreCell.style.backgroundImage = `url("./images/downarrow.png")`;
         if (scoreArrowClass === "down-arrow") {
-          scoreCell.style.backgroundImage = `url("uparrow.png")`;
+          scoreCell.style.backgroundImage = `url("./images/uparrow.png")`;
         }
       }
 
