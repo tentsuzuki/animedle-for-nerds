@@ -4,28 +4,33 @@ const autocompleteContainer = document.getElementById("autocomplete-items");
 input.addEventListener("input", handleInput);
 
 function handleInput() {
-    const searchQuery = input.value.trim().toLowerCase();
-    
-    if (searchQuery.length === 0) {
-      clearAutocomplete();
-      return;
-    }
-    
-    fetch("./titles/titles.json")
-      .then(response => response.json())
-      .then(data => {
-        const matchingEntries = data.data.filter(entry => {
-          const entryTitle = entry.title.toLowerCase();
-          const entrySynonyms = entry.synonyms.map(synonym => synonym.toLowerCase());
-          return entryTitle.startsWith(searchQuery) || entrySynonyms.some(synonym => synonym.startsWith(searchQuery));
-        });
-        const matchingTitles = matchingEntries.map(entry => entry.title);
-        displayAutocomplete(matchingTitles);
-      })
-      .catch(error => {
-        console.log("Error fetching data:", error);
-      });
+  const searchQuery = input.value.trim().toLocaleLowerCase('en-US');
+
+  if (searchQuery.length === 0) {
+    clearAutocomplete();
+    return;
   }
+
+  fetch("./titles/titles4.json")
+    .then(response => response.json())
+    .then(data => {
+      const matchingEntries = data.data.filter(entry => {
+        const entryTitle = entry.title.toLocaleLowerCase('en-US');
+        const entrySynonyms = entry.synonyms.map(synonym => synonym.toLocaleLowerCase('en-US'));
+        const regex = new RegExp(`^${escapeRegExp(searchQuery)}`);
+        return regex.test(entryTitle) || entrySynonyms.some(synonym => regex.test(synonym));
+      });
+      const matchingTitles = matchingEntries.map(entry => entry.title);
+      displayAutocomplete(matchingTitles);
+    })
+    .catch(error => {
+      console.log("Error fetching data:", error);
+    });
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 function displayAutocomplete(entries) {
     clearAutocomplete();

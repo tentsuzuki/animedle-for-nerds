@@ -3,6 +3,7 @@ const guessButton = document.getElementById("button");
 const result = document.getElementById("result");
 const animeImage = document.getElementById("image");
 const continueButton = document.getElementById("continue");
+
 document.getElementById("correcttable").style.display = "none";
 
 let animeTitle = "";
@@ -10,8 +11,9 @@ let animeType = "";
 let animeImageUrl = "";
 let animeRating = "";
 let attempts = 0;
-const maxAttempts = 5;
+let maxAttempts = 7;
 let score = 0;
+let zoomLevel = 10;
 
 const scoreboard = document.getElementById("scoreboard");
 updateScoreboard();
@@ -46,6 +48,7 @@ function checkGuess() {
     } else {
       result.textContent = `guess harder: attempt ${attempts}/${maxAttempts}`;
       fetchAnimeVariables(guess);
+      unzoomImage();
     }
   }
 }
@@ -111,7 +114,13 @@ function fetchRandomAnime() {
 }
 
 function updateAnimeImage() {
+  animeImage.style.transform = `scale(${zoomLevel})`;
   animeImage.src = animeImageUrl;
+}
+
+function unzoomImage() {
+  zoomLevel -= 1;
+  animeImage.style.transform = `scale(${zoomLevel})`;
 }
 
 function handleContinue() {
@@ -128,8 +137,8 @@ function handleContinue() {
 
 function fetchAnimeVariables(guess) {
   const encodedGuess = encodeURIComponent(guess);
-  console.log(`https://api.jikan.moe/v4/anime?q=${encodedGuess}sort=_text_match:desc&limit=1&sfw`);
-  fetch(`https://api.jikan.moe/v4/anime?q=${encodedGuess}sort=_text_match:desc&limit=1&sfw`)
+  console.log(`https://api.jikan.moe/v4/anime?q=${encodedGuess}&limit=1&sfwsort=_text_match:desc`);
+  fetch(`https://api.jikan.moe/v4/anime?q=${encodedGuess}&limit=1&sfwsort=_text_match:desc`)
     .then((response) => response.json())
     .then((data) => {
       const guessanime = data.data[0];

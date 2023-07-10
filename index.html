@@ -1,63 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>animedle for nerds</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>animedle for nerds</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="title">
-        touch grass simulator
-    </div>
-    <main>
-        <section class="game-container">
-            <div id="scoreboard"></div>
-            <div class="image-container">
-                <img id="image">
-            </div>
-            <table id="guesstable">
-                <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Type</th>
-                      <th>Rating</th>
-                      <th>Season</th>
-                      <th>Year</th>
-                      <th>Score</th>
-                      <th>Studios</th>
-                      <th>Genres</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                <tbody></tbody>
-            </table>
-            <table id="correcttable">
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Rating</th>
-                    <th>Season</th>
-                    <th>Year</th>
-                    <th>Score</th>
-                    <th>Studios</th>
-                    <th>Genres</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            <div class="user-input">
-                <input type="text" id="guess" placeholder="enter guess">
-                <div id="autocomplete-items"></div>
-                <button id="button">submit</button>
-                <button id="continue" disabled>continue</button>
-                <p id="result"></p>
-            </div>
-        </div>
-    </main>
-    <script src="script.js" defer></script>
-    <script src="autocomplete.js" defer></script>
+  <div class="title">
+    touch grass simulator
+  </div>
+  <main>
+    <section class="game-container">
+      <div id="scoreboard"></div>
+      <div class="image-container">
+        <img id="image">
+      </div>
+      <table id="guesstable">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Rating</th>
+            <th>Season</th>
+            <th>Year</th>
+            <th>Score</th>
+            <th>Studios</th>
+            <th>Genres</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="correcttable">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Rating</th>
+            <th>Season</th>
+            <th>Year</th>
+            <th>Score</th>
+            <th>Studios</th>
+            <th>Genres</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="user-input">
+        <input type="text" id="guess" placeholder="enter guess">
+        <div id="autocomplete-items"></div>
+        <button id="button">submit</button>
+        <button id="continue" disabled>continue</button>
+        <p id="result"></p>
+      </div>
+      </div>
+  </main>
+  <script src="script.js" defer></script>
+  <script src="autocomplete.js" defer></script>
 </body>
+
 </html>
