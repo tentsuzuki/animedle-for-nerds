@@ -36,6 +36,7 @@ function checkGuess() {
     updateScoreboard();
     continueButton.disabled = false;
     document.getElementById("correcttable").style.display = "block";
+    resetZoom();
   } else {
     attempts++;
     if (attempts >= maxAttempts) {
@@ -44,6 +45,7 @@ function checkGuess() {
       continueButton.disabled = false;
       fetchAnimeVariables(guess);
       document.getElementById("correcttable").style.display = "block";
+      resetZoom();
     } else {
       result.textContent = `guess harder: attempt ${attempts}/${maxAttempts}`;
       fetchAnimeVariables(guess);
@@ -116,6 +118,11 @@ function updateAnimeImage() {
 
 function unzoomImage() {
   zoomLevel -= 1;
+  animeImage.style.transform = `scale(${zoomLevel})`;
+}
+
+function resetZoom() {
+  zoomLevel = 1;
   animeImage.style.transform = `scale(${zoomLevel})`;
 }
 
