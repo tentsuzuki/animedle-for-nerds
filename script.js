@@ -8,6 +8,7 @@ document.getElementById("correcttable").style.display = "none";
 let animeTitle = "";
 let animeType = "";
 let animeImageUrl = "";
+let animeRating = "";
 let attempts = 0;
 const maxAttempts = 5;
 let score = 0;
@@ -56,7 +57,7 @@ function fetchRandomAnime() {
     .then((response) => response.json())
     .then((data) => {
       const anime = data.data;
-      const animeRating = anime.rating;
+      const fetchedRating = anime.rating;
       const fetchedTitle = anime.title;
       const fetchedType = anime.type;
       const fetchedSeason = anime.season;
@@ -66,11 +67,12 @@ function fetchRandomAnime() {
       const fetchedGenres = anime.genres.map((genre) => genre.name) || [];
       const fetchedStatus = anime.status;
 
-      const valuesToCheck = [animeRating, fetchedTitle, , fetchedType, fetchedSeason, fetchedYear, fetchedScore, ...fetchedStudios, ...fetchedGenres, ...fetchedStatus];
+      const valuesToCheck = [fetchedRating, fetchedTitle, , fetchedType, fetchedSeason, fetchedYear, fetchedScore, ...fetchedStudios, ...fetchedGenres, ...fetchedStatus];
 
       if (valuesToCheck.some((value) => value === null || value === undefined)) {
         setTimeout(fetchRandomAnime, 500);
       } else {
+        animeRating = fetchedRating;
         animeTitle = fetchedTitle;
         animeImageUrl = anime.images.jpg.image_url;
         animeSeason = fetchedSeason;
@@ -82,26 +84,23 @@ function fetchRandomAnime() {
         animeType = fetchedType;
         updateAnimeImage();
 
+        const tableBody = document.querySelector("#correcttable tbody");
+
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${animeTitle}</td>
+          <td>${animeType}</td>
+          <td>${animeRating}</td>
+          <td>${animeSeason}</td>
+          <td>${animeYear}</td>
+          <td>${animeScore}</td>
+          <td>${animeStudio.join(', ')}</td>
+          <td>${animeGenre.join(', ')}</td>
+          <td>${animeStatus}</td>
+        `.trim();
+
+        tableBody.appendChild(newRow);
       }
-
-      const tableBody = document.querySelector("#correcttable tbody");
-      tableBody.innerHTML = "";
-
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${animeTitle}</td>
-        <td>${animeType}</td>
-        <td>${animeRating}</td>
-        <td>${fetchedSeason}</td>
-        <td>${fetchedYear}</td>
-        <td>${fetchedScore}</td>
-        <td>${fetchedStudios.join(", ")}</td>
-        <td>${fetchedGenres.join(", ")}</td>
-        <td>${fetchedStatus}</td>
-      `;
-
-      tableBody.appendChild(row);
-
       continueButton.addEventListener("click", handleContinue);
       continueButton.disabled = true;
     })
@@ -154,34 +153,80 @@ function fetchAnimeVariables(guess) {
   fetch(`https://api.jikan.moe/v4/anime?q=${encodedGuess}`)
     .then((response) => response.json())
     .then((data) => {
-      const anime = data.data[0];
-      if (!anime) {
+      const guessanime = data.data[0];
+      if (!guessanime) {
         throw new Error("No anime found.");
       }
 
-      const animeRating = anime.rating || "n/a";
-      const fetchedTitle = anime.title || "n/a";
-      const fetchedType = anime.type || "n/a";
-      const fetchedSeason = anime.season || "n/a";
-      const fetchedYear = anime.year || "n/a";
-      const fetchedScore = anime.score || "n/a";
-      const fetchedStudios = anime.studios ? anime.studios.map((studio) => studio.name) : [];
-      const fetchedGenres = anime.genres ? anime.genres.map((genre) => genre.name) : [];
-      const fetchedStatus = anime.status || "n/a";
+      const guessRating = guessanime.rating || "n/a";
+      const guessTitle = guessanime.title || "n/a";
+      const guessType = guessanime.type || "n/a";
+      const guessSeason = guessanime.season || "n/a";
+      const guessYear = guessanime.year || "n/a";
+      const guessScore = guessanime.score || "n/a";
+      const guessStudios = guessanime.studios ? guessanime.studios.map((studio) => studio.name) : [];
+      const guessGenres = guessanime.genres ? guessanime.genres.map((genre) => genre.name) : [];
+      const guessStatus = guessanime.status || "n/a";
 
       const tableBody = document.querySelector("#guesstable tbody");
       const row = document.createElement("tr");
+
+      const titleMatchClass = guessTitle === animeTitle ? "match" : "no-match";
+      const typeMatchClass = guessType === animeType ? "match" : "no-match";
+      const ratingMatchClass = guessRating && guessRating.toLowerCase() === animeRating && animeRating.toLowerCase() ? "match" : "no-match";
+      const seasonMatchClass = guessSeason === animeSeason ? "match" : "no-match";
+      const studiosMatchClass = guessStudios.some((studio) => animeStudio.includes(studio)) ? "partial-match" : "no-match";
+      const genresMatchClass = guessGenres.some((genre) => animeGenre.includes(genre)) ? "partial-match" : "no-match";
+      const statusMatchClass = guessStatus === animeStatus ? "match" : "no-match";
+      const yearArrowClass = guessYear < animeYear ? "down-arrow" : guessYear > animeYear ? "up-arrow" : "match";
+      const scoreArrowClass = parseFloat(guessScore) < parseFloat(animeScore) ? "down-arrow" : parseFloat(guessScore) > parseFloat(animeScore) ? "up-arrow" : "match";
+      console.log(scoreArrowClass);
+
       row.innerHTML = `
-          <td>${fetchedTitle}</td>
-          <td>${fetchedType}</td>
-          <td>${animeRating}</td>
-          <td>${fetchedSeason}</td>
-          <td>${fetchedYear}</td>
-          <td>${fetchedScore}</td>
-          <td>${fetchedStudios.join(", ")}</td>
-          <td>${fetchedGenres.join(", ")}</td>
-          <td>${fetchedStatus}</td>
-          `;
+      <td class="${titleMatchClass}">${guessTitle}</td>
+      <td class="${typeMatchClass}">${guessType}</td>
+      <td class="${ratingMatchClass}">${guessRating}</td>
+      <td class="${seasonMatchClass}">${guessSeason}</td>
+      <td class="year-cell ${yearArrowClass}">${guessYear}</td>
+      <td class="score-cell ${scoreArrowClass}">${guessScore}</td>
+      <td class="${studiosMatchClass}">${guessStudios.join(", ")}</td>
+      <td class="${genresMatchClass}">${guessGenres.join(", ")}</td>
+      <td class="${statusMatchClass}">${guessStatus}</td>
+      `;
+
+      const cells = row.querySelectorAll("td");
+      cells.forEach((cell) => {
+        const isMatch = cell.classList.contains("match");
+        const isPartialMatch = cell.classList.contains("partial-match");
+        if (isMatch) {
+          cell.style.backgroundColor = "green";
+        } else if (isPartialMatch) {
+          cell.style.backgroundColor = "orange";
+        } else {
+          cell.style.backgroundColor = "red";
+        }
+        if (cell.innerText === "n/a" || cell.innerText === "") {
+          cell.style.backgroundColor = "black";
+        }
+      });
+
+      const yearCell = row.querySelector(".up-arrow, .down-arrow");
+      if (yearCell) {
+        yearCell.style.backgroundImage = `url("downarrow.png")`;
+        if (yearArrowClass === "down-arrow") {
+          yearCell.style.backgroundImage = `url("uparrow.png")`;
+        }
+      }
+
+      const scoreCell = row.querySelector(".score-cell");
+      if (scoreCell) {
+        scoreCell.style.backgroundImage = `url("downarrow.png")`;
+        if (scoreArrowClass === "down-arrow") {
+          scoreCell.style.backgroundImage = `url("uparrow.png")`;
+        }
+      }
+
+
       tableBody.appendChild(row);
     })
     .catch((error) => {
