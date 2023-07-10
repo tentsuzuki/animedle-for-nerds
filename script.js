@@ -9,7 +9,6 @@ document.getElementById("correcttable").style.display = "none";
 let animeTitle = "";
 let animeType = "";
 let animeImageUrl = "";
-let animeRating = "";
 let attempts = 0;
 let maxAttempts = 7;
 let score = 0;
@@ -60,7 +59,6 @@ function fetchRandomAnime() {
     .then((response) => response.json())
     .then((data) => {
       const anime = data.data;
-      const fetchedRating = anime.rating;
       const fetchedTitle = anime.title;
       const fetchedType = anime.type;
       const fetchedSeason = anime.season;
@@ -70,12 +68,11 @@ function fetchRandomAnime() {
       const fetchedGenres = anime.genres.map((genre) => genre.name) || [];
       const fetchedStatus = anime.status;
 
-      const valuesToCheck = [fetchedRating, fetchedTitle, , fetchedType, fetchedSeason, fetchedYear, fetchedScore, ...fetchedStudios, ...fetchedGenres, ...fetchedStatus];
+      const valuesToCheck = [fetchedTitle, , fetchedType, fetchedSeason, fetchedYear, fetchedScore, ...fetchedStudios, ...fetchedGenres, ...fetchedStatus];
 
       if (valuesToCheck.some((value) => value === null || value === undefined)) {
         setTimeout(fetchRandomAnime, 500);
       } else {
-        animeRating = fetchedRating;
         animeTitle = fetchedTitle;
         animeImageUrl = anime.images.jpg.image_url;
         animeSeason = fetchedSeason;
@@ -93,7 +90,6 @@ function fetchRandomAnime() {
         newRow.innerHTML = `
           <td>${animeTitle}</td>
           <td>${animeType}</td>
-          <td>${animeRating}</td>
           <td>${animeSeason}</td>
           <td>${animeYear}</td>
           <td>${animeScore}</td>
@@ -146,7 +142,6 @@ function fetchAnimeVariables(guess) {
         throw new Error("No anime found.");
       }
 
-      const guessRating = guessanime.rating || "n/a";
       const guessTitle = guessanime.title || "n/a";
       const guessType = guessanime.type || "n/a";
       const guessSeason = guessanime.season || "n/a";
@@ -161,7 +156,6 @@ function fetchAnimeVariables(guess) {
 
       const titleMatchClass = guessTitle === animeTitle ? "match" : "no-match";
       const typeMatchClass = guessType === animeType ? "match" : "no-match";
-      const ratingMatchClass = guessRating && guessRating.toLowerCase() === animeRating && animeRating.toLowerCase() ? "match" : "no-match";
       const seasonMatchClass = guessSeason === animeSeason ? "match" : "no-match";
       const studiosMatchClass = guessStudios.some((studio) => animeStudio.includes(studio)) ? "partial-match" : "no-match";
       const genresMatchClass = guessGenres.some((genre) => animeGenre.includes(genre)) ? "partial-match" : "no-match";
@@ -172,7 +166,6 @@ function fetchAnimeVariables(guess) {
       row.innerHTML = `
       <td class="${titleMatchClass}">${guessTitle}</td>
       <td class="${typeMatchClass}">${guessType}</td>
-      <td class="${ratingMatchClass}">${guessRating}</td>
       <td class="${seasonMatchClass}">${guessSeason}</td>
       <td class="year-cell ${yearArrowClass}">${guessYear}</td>
       <td class="score-cell ${scoreArrowClass}">${guessScore}</td>

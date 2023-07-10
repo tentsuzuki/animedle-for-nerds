@@ -46,6 +46,10 @@ body {
     align-items: center;
 }
 
+#image {
+    pointer-events: none;
+}
+
 .user-input {
     margin-top: 16px;
 }
