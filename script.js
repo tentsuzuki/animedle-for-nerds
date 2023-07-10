@@ -128,8 +128,8 @@ function handleContinue() {
 
 function fetchAnimeVariables(guess) {
   const encodedGuess = encodeURIComponent(guess);
-  console.log(`https://api.jikan.moe/v4/anime?q=${encodedGuess}`);
-  fetch(`https://api.jikan.moe/v4/anime?q=${encodedGuess}`)
+  console.log(`https://api.jikan.moe/v4/anime?q=${encodedGuess}sort=_text_match:desc&limit=1&sfw`);
+  fetch(`https://api.jikan.moe/v4/anime?q=${encodedGuess}sort=_text_match:desc&limit=1&sfw`)
     .then((response) => response.json())
     .then((data) => {
       const guessanime = data.data[0];
@@ -159,7 +159,6 @@ function fetchAnimeVariables(guess) {
       const statusMatchClass = guessStatus === animeStatus ? "match" : "no-match";
       const yearArrowClass = guessYear < animeYear ? "down-arrow" : guessYear > animeYear ? "up-arrow" : "match";
       const scoreArrowClass = parseFloat(guessScore) < parseFloat(animeScore) ? "down-arrow" : parseFloat(guessScore) > parseFloat(animeScore) ? "up-arrow" : "match";
-      console.log(scoreArrowClass);
 
       row.innerHTML = `
       <td class="${titleMatchClass}">${guessTitle}</td>
